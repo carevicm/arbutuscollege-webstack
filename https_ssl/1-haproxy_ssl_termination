@@ -1,7 +1,7 @@
 global
 	maxconn 2048
 	tune.ssl.default-dh-param 2048
-	
+
 	log /dev/log	local0
 	log /dev/log	local1 notice
 	chroot /var/lib/haproxy
@@ -46,7 +46,7 @@ frontend www-http
 	default_backend www-backend
 
 frontend www-https
-	bind *:443 ssl crt /etc/haproxy/certs/www.tech.pem
+	bind *:443 ssl crt /etc/haproxy/certs/www.forcioli.tech.pem
 	reqadd X-Forwarded-Proto:\ https
 	acl letsencrypt-acl path_beg /.well-known/acme-challenge/
 	use_backend letsencrypt-backend if letsencrypt-acl
@@ -56,7 +56,7 @@ backend www-backend
 	balance roundrobin
 	redirect scheme https if !{ ssl_fc }
 	server 6172-web-01 15.237.58.224:80 check
-	server 6172-web-02 15.188.33.70:80 check
+	server 6172-web-02 13.37.248.192:80 check
 
 backend letsencrypt-backend
-	server letsencrypt 127.0.0.1:54322
+	server letsencrypt 127.0.0.1:54321
