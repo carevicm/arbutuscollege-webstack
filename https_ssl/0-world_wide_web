@@ -1,28 +1,14 @@
 #!/usr/bin/env bash
-# Scans a subdomain's record type and
-# informs which IP is pointing to that record
-#
+# script to config domain zone to point to load balancer
+# add more subdomains and display info about them
 
-domain="$1"                                         # Domain name to audit.
-subdomain="$2"                                      # Specific subdomain to audit.
-
-lookup_host() {
-    host_record=$(
-        dig "$1" | grep -A1 'ANSWER SECTION:' | tail -n 1
-    )
-
-    echo "$host_record" |
-    awk '{print "The subdomain","'"$subdomain"'","is a",$4,"record and points to",$5}'
-}
-
-if [ "$domain" ] && [ "$subdomain" ] ; then         # Display information for the specified subdomain.
-    host="$subdomain.$domain"                       # Concatenates the domain and subdomain.
-    lookup_host "$host"
-elif [ "$domain" ] ; then                           # Display information for its subdomains
-    def_subdomains=(www lb-01 web-01 web-02)        # 'www', 'lb-01', 'web-01' and 'web-02'.
-                                                    # In this specific order.
-    for subdomain in "${def_subdomains[@]}" ; do
-        host="$subdomain.$domain"
-        lookup_host "$host"
-    done
+domain=$1
+if [ "$#" -eq 2 ]; then
+   sub=$2
+else
+	sub=("www" "lb-01" "web-01" "web-02")
 fi
+for subdomain in "${sub[@]}"; do
+    echo -n "The subdomain $subdomain"
+    dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -n -1 | awk '{ print " is a " $4 " record and points to " $5}'
+done
