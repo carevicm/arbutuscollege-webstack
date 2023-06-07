@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
-# Script that displays information about subdomains.
-
-domain=${1}
-subdomains=(${2:-www lb-01 web-01 web-02})
-
-subdomain_data() {
-	dig "${1}.${2}" | awk -v subdomain="${1}" '/ANSWER SECTION:/ { getline; print "The subdomain", subdomain, "is a", $4, "record and points to", $5 }'
+# Display information of domain and subdomain
+# shellcheck disable=SC2086
+info_Domain () {
+    A=$(dig $2.$1 | awk '/ANSWER SECTION:/{getline;print;}')
+    RE=$(echo $A | cut -d' ' -f 4)
+    IP=$(echo $A | cut -d' ' -f 5)
+    echo "The subdomain $2 is a $RE record and points to $IP"
 }
-
-for subdomain in "${subdomains[@]}"; do
-	subdomain_data "$subdomain" "$domain"
-done
+if [ $# -lt 1 ]
+then
+    echo "Usage: 1-world_wide_web DOMAIN SUBDOMAIN(optional)"
+elif [ $# -eq 1 ]
+then
+    info_Domain "$1" "www"
+    info_Domain "$1" "lb-01"
+    info_Domain "$1" "web-01"
+    info_Domain "$1" "web-02"
+else
+    info_Domain "$1" "$2"
+fi
