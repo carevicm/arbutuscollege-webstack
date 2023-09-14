@@ -1,8 +1,5 @@
-README
-
-
 Project badge
-0%
+100%
 HTTPS SSL
  Amateur
  By: Sylvain Kalache
@@ -53,11 +50,12 @@ Great! You've completed the quiz successfully! Keep going! (Show quiz)
 Your servers
 Name	Username	IP	State	
 6172-web-01	ubuntu	15.237.58.224	running	
-6172-web-02	ubuntu	15.188.33.70	running	
-6172-lb-01	ubuntu	35.180.50.233	running	
+6172-web-02	ubuntu	13.37.248.192	running	
+6172-lb-01	ubuntu	15.236.145.16	running	
 Tasks
 0. World wide web
 mandatory
+Score: 100.00% (Checks completed: 100.00%)
 Configure your domain zone so that the subdomain www points to your load-balancer IP (lb-01). Let’s also add other subdomains to make our life easier, and write a Bash script that will display information about subdomains.
 
 Requirements:
@@ -116,10 +114,11 @@ Repo:
 GitHub repository: arbutuscollege-webstack
 Directory: https_ssl
 File: 0-world_wide_web
-  
-0/6 pts
+   
+6/6 pts
 1. HAproxy SSL termination
 mandatory
+Score: 100.00% (Checks completed: 100.00%)
 “Terminating SSL on HAproxy” means that HAproxy is configured to handle encrypted traffic, unencrypt it and pass it on to its destination.
 
 Create a certificate using certbot and configure HAproxy to accept encrypted traffic for your subdomain www..
@@ -156,10 +155,11 @@ Repo:
 GitHub repository: arbutuscollege-webstack
 Directory: https_ssl
 File: 1-haproxy_ssl_termination
-  
-0/2 pts
+   
+2/2 pts
 2. No loophole in your website traffic
 mandatory
+Score: 100.00% (Checks completed: 100.00%)
 A good habit is to enforce HTTPS traffic so that no unencrypted traffic is possible. Configure HAproxy to automatically redirect HTTP traffic to HTTPS.
 
 Requirements:
@@ -193,3 +193,4 @@ Repo:
 
 GitHub repository: arbutuscollege-webstack
 Directory: https_ssl
+File: 2-redirect_http_to_https
